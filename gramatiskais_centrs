@@ -1,0 +1,64 @@
+import pandas as pd
+from random import randint
+
+#add a csv file with this
+
+col = ['Laiks vai vieta','Kas','Vieta vai veids', 'Ko dara', 'Teikuma beigas']
+lst =[
+    [None, 'bērni', None, 'brauc', 'ar autobusu uz mājām' ],
+    ['šodien', 'mēs', 'skolā', 'mācamies', 'angļu valodu'],
+    ['no rīta', 'skolotāja', 'klasē', 'dzer', 'karstu kafiju'],
+    [None, 'zaķis', 'mežā', 'grauž','sasalušu burkānu'],
+    [None, 'viņa', None, 'grib', 'iet uz mājām'],
+    ['pēc pusdienām', 'Laura', None, 'rēķina', 'matemātikas uzdevumus'],
+    [None, 'es', None, 'dodu', 'Ainai savu kruasānu'],
+    ['astoņos trīsdesmit', 'mēs', None, 'sākam', 'pirmo stundu'],
+    [None, 'sniegs', None, 'pārklāj', 'laukus'],
+    [None, 'sniegs', 'šovakar stipri', 'putina'],
+    [None, 'skriešana', None, 'ir', 'labs hobijs'],
+    [None, 'mēness', 'šonakt spoži', 'spīd', 'zvaigžņotajās debesīs'],
+    [None, 'Māris un Miks', None, 'ir', 'kaimiņi'],
+    ['skolā', 'es', 'vienmēr labi', 'mācos un uzvedos', None],
+    ['mājās', 'mēs', 'bieži kopā ar mammu', 'taisam', 'picu vai pankūkas'],
+    ['vakaros', 'es', 'parasti', 'eju', 'gulēt 11:00'],
+    [None, 'Māris', 'skaisti', 'spēlē', 'dziesmu "Aijā žūžū"'],
+    [None, 'zaķītis', 'bēdīgs', 'sēž', 'meža malā uz celma' ]
+    ]
+
+df = pd.DataFrame(lst, columns = col)
+
+def printSentence(df, row):
+    temp = str()
+    for key in df.keys():
+        if pd.isnull(df.at[row, key]) == False:
+            temp = temp + df.at[row, key] + " "
+    print(f"{temp[0].capitalize()}{temp[1:-1]}.") 
+    
+def askquestion(df, row):
+    
+    print()    
+    print("Kāds ir teikuma gramatiskais centrs? Kas? Ko dara?")
+    answer = df.at[row, 'Kas'] + ' ' + df.at[row, 'Ko dara']
+    return answer
+
+#main program starts here
+
+score = 0
+
+for exercise in range(10):
+    
+    i = randint(0, len(df)-1)
+    printSentence(df, i)
+    expected = askquestion(df, i)
+    answer = input()
+    
+    if answer.lower() == expected.lower():
+        print("Malacis!")
+        score +=1
+    else:
+        print(f"Nē, pareizi ir --> {expected}")
+    print()
+    
+print(f'Tu ieguvi {score} punktus no 10')
+if score > 7:
+    print("Tev labi sanāk!")
